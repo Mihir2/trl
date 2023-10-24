@@ -425,7 +425,7 @@ class DPOTrainer(Trainer):
             else {}
         )
         all_logits = model(
-            concatenated_batch["concatenated_input_ids"],
+            concatenated_batch["concatenated_input_ids"].to(self.accelerator.device),
             attention_mask=concatenated_batch["concatenated_attention_mask"].to(self.accelerator.device),
             **model_kwargs,
         ).logits.to(torch.float32)
