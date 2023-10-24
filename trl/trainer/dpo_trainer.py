@@ -148,7 +148,7 @@ class DPOTrainer(Trainer):
             if getattr(model, "is_loaded_in_8bit", False) or getattr(model, "is_loaded_in_4bit", False):
                 model = prepare_model_for_kbit_training(model, use_gradient_checkpointing=args.gradient_checkpointing)
             model = get_peft_model(model, peft_config)
-            print(print_number_of_trainable_model_parameters(model))
+            print(f'DPO model parameters:\n{print_number_of_trainable_model_parameters(model)}\n')
 
         if generate_during_eval and not is_wandb_available():
             raise ValueError(
