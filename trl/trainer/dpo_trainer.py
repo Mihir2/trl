@@ -31,7 +31,15 @@ from ..import_utils import is_peft_available, is_wandb_available
 from ..models import PreTrainedModelWrapper, create_reference_model
 from .utils import DPODataCollatorWithPadding, disable_dropout_in_model, pad_to_length
 
-
+def print_number_of_trainable_model_parameters(model):
+    trainable_model_params = 0
+    all_model_params = 0
+    for _, param in model.named_parameters():
+        all_model_params += param.numel()
+        if param.requires_grad:
+            trainable_model_params += param.numel()
+    return f"trainable model parameters: {trainable_model_params}\nall model parameters: {all_model_params}\npercentage of trainable model parameters: {100 * trainable_model_params / all_model_params}%"
+    
 if is_peft_available():
     from peft import PeftModel, get_peft_model, prepare_model_for_kbit_training
 
@@ -136,9 +144,11 @@ class DPOTrainer(Trainer):
                 "PEFT is not installed and you passed a `peft_config` in the trainer's kwargs, please install it to use the PEFT models"
             )
         elif is_peft_available() and peft_config is not None:
+            print('Using PEFT model')
             if getattr(model, "is_loaded_in_8bit", False) or getattr(model, "is_loaded_in_4bit", False):
                 model = prepare_model_for_kbit_training(model, use_gradient_checkpointing=args.gradient_checkpointing)
             model = get_peft_model(model, peft_config)
+            print_number_of_trainable_model_parameters(model)
 
         if generate_during_eval and not is_wandb_available():
             raise ValueError(
@@ -424,6 +434,7 @@ class DPOTrainer(Trainer):
             if self.is_encoder_decoder
             else {}
         )
+        print_number_of_trainable_model_parameters(model)
         all_logits = model(
             concatenated_batch["concatenated_input_ids"].to(self.accelerator.device),
             attention_mask=concatenated_batch["concatenated_attention_mask"].to(self.accelerator.device),
