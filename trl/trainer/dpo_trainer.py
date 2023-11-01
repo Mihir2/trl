@@ -324,7 +324,10 @@ class DPOTrainer(Trainer):
                     dim=0,
                 ).to(self.accelerator.device)
 
+        print('---Batch---')
         print(batch)
+        print("------")
+        print("---Concat Batch---")
         print(concatenated_batch)
         # for k in batch:
         #     print("------")
