@@ -329,6 +329,7 @@ class DPOTrainer(Trainer):
         print("------")
         print("---Concat Batch---")
         print(concatenated_batch)
+        print("------")
         # for k in batch:
         #     print("------")
         #     if isinstance(batch[k], torch.Tensor):
