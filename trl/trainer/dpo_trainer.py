@@ -426,7 +426,9 @@ class DPOTrainer(Trainer):
         labels[labels == self.label_pad_token_id] = 0
 
         per_token_logps = torch.gather(logits.log_softmax(-1), dim=2, index=labels.unsqueeze(2)).squeeze(2)
-
+        print('---Per token logps ----')
+        print(per_token_logps)
+        print('-----')
         if average_log_prob:
             return (per_token_logps * loss_mask).sum(-1) / loss_mask.sum(-1)
         else:
