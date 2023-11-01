@@ -144,7 +144,7 @@ class DPOTrainer(Trainer):
                 "PEFT is not installed and you passed a `peft_config` in the trainer's kwargs, please install it to use the PEFT models"
             )
         elif is_peft_available() and peft_config is not None:
-            print('Using PEFT model')
+            print('Creating DPO model for training')
             if getattr(model, "is_loaded_in_8bit", False) or getattr(model, "is_loaded_in_4bit", False):
                 model = prepare_model_for_kbit_training(model, use_gradient_checkpointing=args.gradient_checkpointing)
             model = get_peft_model(model, peft_config)
