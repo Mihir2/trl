@@ -436,6 +436,7 @@ class DPOTrainer(Trainer):
         print(logits.log_softmax(-1))
         print('-----')
         print('--- per_token_logps ----')
+        print(torch.gather(logits.log_softmax(-1), dim=2, index=labels.unsqueeze(2)).shape)
         print(torch.gather(logits.log_softmax(-1), dim=2, index=labels.unsqueeze(2)))
         print('-----')
         if average_log_prob:
