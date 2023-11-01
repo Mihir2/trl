@@ -456,13 +456,18 @@ class DPOTrainer(Trainer):
             attention_mask=concatenated_batch["concatenated_attention_mask"],
             **model_kwargs,
         ).logits.to(torch.float32)
-
+        print('---Logits---')
+        print(all_logits)
+        print('------------')
         all_logps = self._get_batch_logps(
             all_logits,
             concatenated_batch["concatenated_labels"],
             average_log_prob=False,
         )
-
+        print('---Log Probs---')
+        print(all_logps)
+        print('------------')
+        
         chosen_logps = all_logps[:len_chosen]
         rejected_logps = all_logps[len_chosen:]
 
