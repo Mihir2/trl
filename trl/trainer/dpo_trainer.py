@@ -335,12 +335,12 @@ class DPOTrainer(Trainer):
         #         print("/n/n/n")
 
         for k in concatenated_batch:
-            print("------")
-            if isinstance(batch[k], torch.Tensor):
-                print(k, batch[k].shape)
-                print(self.tokenizer.batch_decode(batch[k], skip_special_tokens=True))
-                print(batch[k])
-                print("/n/n/n")
+            print("--START----")
+            if isinstance(concatenated_batch[k], torch.Tensor):
+                print(k, concatenated_batch[k].shape)
+                print(self.tokenizer.batch_decode(concatenated_batch[k], skip_special_tokens=True))
+                print(concatenated_batch[k])
+            print("--END----")
         
         if self.is_encoder_decoder:
             concatenated_batch["concatenated_input_ids"] = batch["prompt_input_ids"].repeat(2, 1)
