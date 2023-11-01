@@ -427,14 +427,14 @@ class DPOTrainer(Trainer):
         )
         
         all_logits = model(
-            concatenated_batch["concatenated_input_ids"].to(self.accelerator.device),
-            attention_mask=concatenated_batch["concatenated_attention_mask"].to(self.accelerator.device),
+            concatenated_batch["concatenated_input_ids"],
+            attention_mask=concatenated_batch["concatenated_attention_mask"],
             **model_kwargs,
         ).logits.to(torch.float32)
 
         all_logps = self._get_batch_logps(
             all_logits,
-            concatenated_batch["concatenated_labels"].to(self.accelerator.device),
+            concatenated_batch["concatenated_labels"],
             average_log_prob=False,
         )
 
