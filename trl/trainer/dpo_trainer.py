@@ -326,7 +326,15 @@ class DPOTrainer(Trainer):
 
         # print(batch)
         # print(concatenated_batch)
-        for k in batch:
+        # for k in batch:
+        #     print("------")
+        #     if isinstance(batch[k], torch.Tensor):
+        #         print(k, batch[k].shape)
+        #         print(self.tokenizer.batch_decode(batch[k], skip_special_tokens=True))
+        #         print(batch[k])
+        #         print("/n/n/n")
+
+        for k in concatenated_batch:
             print("------")
             if isinstance(batch[k], torch.Tensor):
                 print(k, batch[k].shape)
