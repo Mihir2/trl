@@ -324,8 +324,8 @@ class DPOTrainer(Trainer):
                     dim=0,
                 ).to(self.accelerator.device)
 
-        # print(batch)
-        # print(concatenated_batch)
+        print(batch)
+        print(concatenated_batch)
         # for k in batch:
         #     print("------")
         #     if isinstance(batch[k], torch.Tensor):
@@ -334,14 +334,14 @@ class DPOTrainer(Trainer):
         #         print(batch[k])
         #         print("/n/n/n")
 
-        for k in concatenated_batch:
-            print("--START----")
-            print(k)
-            if isinstance(concatenated_batch[k], torch.Tensor):
-                print(concatenated_batch[k].shape)
-                # print(self.tokenizer.batch_decode(concatenated_batch[k], skip_special_tokens=True))
-            print(concatenated_batch[k])
-            print("--END----")
+        # for k in concatenated_batch:
+        #     print("--START----")
+        #     print(k)
+        #     if isinstance(concatenated_batch[k], torch.Tensor):
+        #         print(concatenated_batch[k].shape)
+        #         # print(self.tokenizer.batch_decode(concatenated_batch[k], skip_special_tokens=True))
+        #     print(concatenated_batch[k])
+        #     print("--END----")
         
         if self.is_encoder_decoder:
             concatenated_batch["concatenated_input_ids"] = batch["prompt_input_ids"].repeat(2, 1)
