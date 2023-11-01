@@ -330,6 +330,7 @@ class DPOTrainer(Trainer):
             print("------")
             if isinstance(batch[k], torch.Tensor):
                 print(k, batch[k].shape)
+                print(self.tokenizer.batch_decode(batch[k], skip_special_tokens=True))
                 print(batch[k])
                 print("/n/n/n")
         
