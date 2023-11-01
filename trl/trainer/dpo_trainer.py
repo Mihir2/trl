@@ -439,6 +439,10 @@ class DPOTrainer(Trainer):
         print(torch.gather(logits.log_softmax(-1), dim=2, index=labels.unsqueeze(2)).squeeze(2).shape)
         print(torch.gather(logits.log_softmax(-1), dim=2, index=labels.unsqueeze(2)))
         print('-----')
+        print('--- log prob ----')
+        print((per_token_logps * loss_mask).sum(-1).shape)
+        print((per_token_logps * loss_mask).sum(-1))
+        print('-----')
         if average_log_prob:
             return (per_token_logps * loss_mask).sum(-1) / loss_mask.sum(-1)
         else:
