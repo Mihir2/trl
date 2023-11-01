@@ -434,7 +434,7 @@ class DPOTrainer(Trainer):
             if self.is_encoder_decoder
             else {}
         )
-        print(print_number_of_trainable_model_parameters(model))
+        
         all_logits = model(
             concatenated_batch["concatenated_input_ids"].to(self.accelerator.device),
             attention_mask=concatenated_batch["concatenated_attention_mask"].to(self.accelerator.device),
