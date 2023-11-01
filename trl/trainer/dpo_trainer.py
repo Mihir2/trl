@@ -614,6 +614,18 @@ class DPOTrainer(Trainer):
         Works both with or without labels.
         """
 
+        # Generate random indices within the range of the total number of samples
+        num_samples = len(dataloader.dataset)
+        random_indices = random.sample(range(num_samples), k=self.args.eval_batch_size)
+
+        # Use dataloader.dataset.select to get the random batch without iterating over the DataLoader
+        random_batch_dataset = dataloader.dataset.select(random_indices)
+        random_batch = self.data_collator(random_batch_dataset)
+        random_batch = self._prepare_inputs(random_batch)
+
+        policy_output_decoded, ref_output_decoded = self.get_batch_samples(self.model, random_batch)
+        print(policy_output_decoded, ref_output_decoded)
+        
         # Sample and save to game log if requested (for one batch to save time)
         if self.generate_during_eval:
             # Generate random indices within the range of the total number of samples
