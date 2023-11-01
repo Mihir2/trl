@@ -457,7 +457,7 @@ class DPOTrainer(Trainer):
             **model_kwargs,
         ).logits.to(torch.float32)
         print('---Logits---')
-        print(all_logits)
+        print(all_logits.shape)
         print('------------')
         all_logps = self._get_batch_logps(
             all_logits,
