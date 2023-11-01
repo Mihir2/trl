@@ -327,9 +327,7 @@ class DPOTrainer(Trainer):
         print('---Batch---')
         print(batch)
         print("------")
-        print("---Concat Batch---")
-        print(concatenated_batch)
-        print("------")
+        
         # for k in batch:
         #     print("------")
         #     if isinstance(batch[k], torch.Tensor):
@@ -351,6 +349,10 @@ class DPOTrainer(Trainer):
             concatenated_batch["concatenated_input_ids"] = batch["prompt_input_ids"].repeat(2, 1)
             concatenated_batch["concatenated_attention_mask"] = batch["prompt_attention_mask"].repeat(2, 1)
 
+        print("---Concat Batch---")
+        print(concatenated_batch)
+        print("------")
+        
         return concatenated_batch
 
     def dpo_loss(
