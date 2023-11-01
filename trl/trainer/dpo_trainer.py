@@ -324,8 +324,9 @@ class DPOTrainer(Trainer):
                     dim=0,
                 ).to(self.accelerator.device)
 
-        print(concatenated_batch.shape)
-
+        print(batch)
+        print(concatenated_batch)
+        
         if self.is_encoder_decoder:
             concatenated_batch["concatenated_input_ids"] = batch["prompt_input_ids"].repeat(2, 1)
             concatenated_batch["concatenated_attention_mask"] = batch["prompt_attention_mask"].repeat(2, 1)
