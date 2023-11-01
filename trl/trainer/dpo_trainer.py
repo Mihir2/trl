@@ -325,7 +325,7 @@ class DPOTrainer(Trainer):
                 ).to(self.accelerator.device)
 
         print(batch)
-        print(concatenated_batch)
+        # print(concatenated_batch)
         
         if self.is_encoder_decoder:
             concatenated_batch["concatenated_input_ids"] = batch["prompt_input_ids"].repeat(2, 1)
