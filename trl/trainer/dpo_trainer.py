@@ -328,9 +328,10 @@ class DPOTrainer(Trainer):
         # print(concatenated_batch)
         for k in batch:
             print("------")
-            print(k, batch[k].shape)
-            print(batch[k])
-            print("/n/n/n")
+            if isinstance(batch[k], torch.Tensor):
+                print(k, batch[k].shape)
+                print(batch[k])
+                print("/n/n/n")
         
         if self.is_encoder_decoder:
             concatenated_batch["concatenated_input_ids"] = batch["prompt_input_ids"].repeat(2, 1)
