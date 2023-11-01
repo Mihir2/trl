@@ -328,7 +328,7 @@ class DPOTrainer(Trainer):
         # print(concatenated_batch)
         for k in batch:
             print("------")
-            print(k)
+            print(k, batch[k].shape)
             print(batch[k])
             print("/n/n/n")
         
