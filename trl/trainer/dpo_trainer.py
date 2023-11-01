@@ -338,7 +338,7 @@ class DPOTrainer(Trainer):
             print("--START----")
             if isinstance(concatenated_batch[k], torch.Tensor):
                 print(k, concatenated_batch[k].shape)
-                print(self.tokenizer.batch_decode(concatenated_batch[k], skip_special_tokens=True))
+                # print(self.tokenizer.batch_decode(concatenated_batch[k], skip_special_tokens=True))
                 print(concatenated_batch[k])
             print("--END----")
         
