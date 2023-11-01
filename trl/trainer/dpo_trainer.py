@@ -324,7 +324,7 @@ class DPOTrainer(Trainer):
                     dim=0,
                 ).to(self.accelerator.device)
 
-        print(batch)
+        # print(batch)
         # print(concatenated_batch)
         for k in batch:
             print("------")
