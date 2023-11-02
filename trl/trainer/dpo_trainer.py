@@ -491,7 +491,7 @@ class DPOTrainer(Trainer):
         # print('---Logits---')
         # print(all_logits.shape)
         # print('------------')
-        # all_logps = self._get_batch_logps(
+        all_logps = self._get_batch_logps(
             all_logits,
             concatenated_batch["concatenated_labels"],
             average_log_prob=False,
