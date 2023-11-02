@@ -588,7 +588,7 @@ class DPOTrainer(Trainer):
                 "input_ids": batch["prompt_input_ids"],
                 "attention_mask": batch["prompt_attention_mask"],
                 "max_length": self.max_length,
-                "do_sample": True,
+                "do_sample": False,
                 "pad_token_id": self.tokenizer.pad_token_id
         }
 
@@ -600,7 +600,7 @@ class DPOTrainer(Trainer):
                     batch["prompt_input_ids"],
                     attention_mask=batch["prompt_attention_mask"],
                     max_length=self.max_length,
-                    do_sample=True,
+                    do_sample=False,
                     pad_token_id=self.tokenizer.pad_token_id,
                 )
         else:
@@ -608,7 +608,7 @@ class DPOTrainer(Trainer):
                 batch["prompt_input_ids"],
                 attention_mask=batch["prompt_attention_mask"],
                 max_length=self.max_length,
-                do_sample=True,
+                do_sample=False,
                 pad_token_id=self.tokenizer.pad_token_id,
             )
 
