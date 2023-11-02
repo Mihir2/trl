@@ -690,7 +690,8 @@ class DPOTrainer(Trainer):
             random_batch = self._prepare_inputs(random_batch)
 
             policy_output_decoded, ref_output_decoded = self.get_batch_samples(self.model, random_batch)
-
+            print(policy_output_decoded)
+            print(ref_output_decoded)
             self.log(
                 {
                     "game_log": wandb.Table(
