@@ -473,31 +473,32 @@ class DPOTrainer(Trainer):
             **model_kwargs,
         ).logits.to(torch.float32)
         
+        model_gen_kwargs = {
+                "input_ids": batch["prompt_input_ids"],
+                "attention_mask": batch["prompt_attention_mask",
+                "max_length": self.max_length,
+                "do_sample": True,
+                "pad_token_id": self.tokenizer.pad_token_id
+        }
         print('--- Policy Output ---')
-        policy_output = model.generate(
-            batch["prompt_input_ids"],
-            attention_mask=batch["prompt_attention_mask"],
-            max_length=self.max_length,
-            do_sample=True,
-            pad_token_id=self.tokenizer.pad_token_id,
-        )
+        policy_output = model.generate(**model_gen_kwargs)
         print(policy_output.shape)
         policy_output = pad_to_length(policy_output, self.max_length, self.tokenizer.pad_token_id)
         print(policy_output.shape)
         policy_output_decoded = self.tokenizer.batch_decode(policy_output, skip_special_tokens=True)
         print(policy_output_decoded)
 
-        print('---Logits---')
-        print(all_logits.shape)
-        print('------------')
-        all_logps = self._get_batch_logps(
+        # print('---Logits---')
+        # print(all_logits.shape)
+        # print('------------')
+        # all_logps = self._get_batch_logps(
             all_logits,
             concatenated_batch["concatenated_labels"],
             average_log_prob=False,
         )
-        print('---Log Probs---')
-        print(all_logps)
-        print('------------')
+        # print('---Log Probs---')
+        # print(all_logps)
+        # print('------------')
         
         chosen_logps = all_logps[:len_chosen]
         rejected_logps = all_logps[len_chosen:]
