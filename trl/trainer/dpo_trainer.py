@@ -324,9 +324,9 @@ class DPOTrainer(Trainer):
                     dim=0,
                 ).to(self.accelerator.device)
 
-        print('---Batch---')
-        print(batch)
-        print("------")
+        # print('---Batch---')
+        # print(batch)
+        # print("------")
         
         # for k in batch:
         #     print("------")
@@ -349,9 +349,9 @@ class DPOTrainer(Trainer):
             concatenated_batch["concatenated_input_ids"] = batch["prompt_input_ids"].repeat(2, 1)
             concatenated_batch["concatenated_attention_mask"] = batch["prompt_attention_mask"].repeat(2, 1)
 
-        print("---Concat Batch---")
-        print(concatenated_batch)
-        print("------")
+        # print("---Concat Batch---")
+        # print(concatenated_batch)
+        # print("------")
         
         return concatenated_batch
 
@@ -425,24 +425,24 @@ class DPOTrainer(Trainer):
         # dummy token; we'll ignore the losses on these tokens later
         labels[labels == self.label_pad_token_id] = 0
         
-        print('---Labels ----')
-        print(labels.unsqueeze(2).shape)
-        print(labels.unsqueeze(2))
-        print('-----')
+        # print('---Labels ----')
+        # print(labels.unsqueeze(2).shape)
+        # print(labels.unsqueeze(2))
+        # print('-----')
 
         per_token_logps = torch.gather(logits.log_softmax(-1), dim=2, index=labels.unsqueeze(2)).squeeze(2)
-        print('---Logits softmax ----')
-        print(logits.log_softmax(-1).shape)
-        print(logits.log_softmax(-1))
-        print('-----')
-        print('--- per_token_logps ----')
-        print(torch.gather(logits.log_softmax(-1), dim=2, index=labels.unsqueeze(2)).squeeze(2).shape)
-        print(torch.gather(logits.log_softmax(-1), dim=2, index=labels.unsqueeze(2)))
-        print('-----')
-        print('--- log prob ----')
-        print((per_token_logps * loss_mask).sum(-1).shape)
-        print((per_token_logps * loss_mask).sum(-1))
-        print('-----')
+        # print('---Logits softmax ----')
+        # print(logits.log_softmax(-1).shape)
+        # print(logits.log_softmax(-1))
+        # print('-----')
+        # print('--- per_token_logps ----')
+        # print(torch.gather(logits.log_softmax(-1), dim=2, index=labels.unsqueeze(2)).squeeze(2).shape)
+        # print(torch.gather(logits.log_softmax(-1), dim=2, index=labels.unsqueeze(2)))
+        # print('-----')
+        # print('--- log prob ----')
+        # print((per_token_logps * loss_mask).sum(-1).shape)
+        # print((per_token_logps * loss_mask).sum(-1))
+        # print('-----')
         if average_log_prob:
             return (per_token_logps * loss_mask).sum(-1) / loss_mask.sum(-1)
         else:
@@ -584,13 +584,15 @@ class DPOTrainer(Trainer):
     def get_batch_samples(self, model, batch: Dict[str, torch.LongTensor]) -> Tuple[str, str]:
         """Generate samples from the model and reference model for the given batch of inputs."""
 
-        policy_output = model.generate(
-            batch["prompt_input_ids"],
-            attention_mask=batch["prompt_attention_mask"],
-            max_length=self.max_length,
-            do_sample=True,
-            pad_token_id=self.tokenizer.pad_token_id,
-        )
+        model_gen_kwargs = {
+                "input_ids": batch["prompt_input_ids"],
+                "attention_mask": batch["prompt_attention_mask"],
+                "max_length": self.max_length,
+                "do_sample": True,
+                "pad_token_id": self.tokenizer.pad_token_id
+        }
+
+        policy_output = model.generate(**model_gen_kwargs)
 
         if self.ref_model is None:
             with self.accelerator.unwrap_model(self.model).disable_adapter():
