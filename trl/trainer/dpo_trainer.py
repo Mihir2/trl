@@ -482,6 +482,10 @@ class DPOTrainer(Trainer):
             pad_token_id=self.tokenizer.pad_token_id,
         )
         print(policy_output.shape)
+        policy_output = pad_to_length(policy_output, self.max_length, self.tokenizer.pad_token_id)
+        print(policy_output.shape)
+        policy_output_decoded = self.tokenizer.batch_decode(policy_output, skip_special_tokens=True)
+        print(policy_output_decoded)
 
         print('---Logits---')
         print(all_logits.shape)
