@@ -472,6 +472,17 @@ class DPOTrainer(Trainer):
             attention_mask=concatenated_batch["concatenated_attention_mask"],
             **model_kwargs,
         ).logits.to(torch.float32)
+        
+        print('--- Policy Output ---')
+        policy_output = model.generate(
+            batch["prompt_input_ids"],
+            attention_mask=batch["prompt_attention_mask"],
+            max_length=self.max_length,
+            do_sample=True,
+            pad_token_id=self.tokenizer.pad_token_id,
+        )
+        print(policy_output.shape)
+
         print('---Logits---')
         print(all_logits.shape)
         print('------------')
